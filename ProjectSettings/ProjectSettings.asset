@@ -336,10 +336,10 @@ PlayerSettings:
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
   scriptingDefineSymbols:
-    1: 
-    2: 
-    4: 
-    7: 
+    1: USE_FIXED_COMPILER
+    2: USE_FIXED_COMPILER
+    4: USE_FIXED_COMPILER
+    7: USE_FIXED_COMPILER
   metroPackageName: UniRxExtension
   metroPackageVersion: 
   metroCertificatePath: 
