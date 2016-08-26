@@ -309,7 +309,11 @@ namespace UniRx
                         var distpacher2 = Instance;
                         if (distpacher2 != null)
                         {
+#if UNITY_5_5_OR_NEWER
+                            distpacher2.StartCoroutine_Base(routine);
+#else
                             distpacher2.StartCoroutine_Auto(routine);
+#endif
                         }
                     }, null);
                 }
@@ -364,13 +368,24 @@ namespace UniRx
             var dispatcher = Instance;
             if (dispatcher != null)
             {
+#if UNITY_5_5_OR_NEWER
+                return dispatcher.StartCoroutine_Base(routine);
+#else
                 return dispatcher.StartCoroutine_Auto(routine);
+#endif
             }
             else
             {
                 return null;
             }
         }
+
+#if UNITY_5_5_OR_NEWER
+        private Coroutine StartCoroutine_Base(IEnumerator routine)
+        {
+            return base.StartCoroutine(routine);
+        }
+#endif
 
         public static void RegisterUnhandledExceptionCallback(Action<Exception> exceptionCallback)
         {
@@ -478,9 +493,15 @@ namespace UniRx
                 fixedUpdateMicroCoroutine = new MicroCoroutine(ex => unhandledExceptionCallback(ex));
                 endOfFrameMicroCoroutine = new MicroCoroutine(ex => unhandledExceptionCallback(ex));
 
+#if UNITY_5_5_OR_NEWER
+                StartCoroutine_Base(RunUpdateMicroCoroutine());
+                StartCoroutine_Base(RunFixedUpdateMicroCoroutine());
+                StartCoroutine_Base(RunEndOfFrameMicroCoroutine());
+#else
                 StartCoroutine_Auto(RunUpdateMicroCoroutine());
                 StartCoroutine_Auto(RunFixedUpdateMicroCoroutine());
                 StartCoroutine_Auto(RunEndOfFrameMicroCoroutine());
+#endif
 
                 DontDestroyOnLoad(gameObject);
             }
